@@ -22,13 +22,16 @@ void draw() {
   fill(127);
   text("Press 'R' to reset zoom/position, 'L' to show labels", margin, margin/2);
   // DRAW THE DATAVIZ
-  if (scaleFactor < 1) {
+  if (scaleFactor < 1 || translateX > 0) {
     scaleFactor = 1;
     translateX = 0;
     translateY = 0;
   }
+  pushMatrix();
+  translate(translateX, translateY);
   drawGUI();
   drawData();
+  popMatrix();
 }
 
 void getData() {
@@ -70,8 +73,8 @@ void drawGUI() {
       stroke(200, 60);
       float yPos = map(i, eduMin, eduMax, height - margin - 10, margin+10);
       textAlign(CENTER);
-      text(i + " %", margin - 5, yPos + 4);
-      line(margin, yPos, width - margin, yPos);
+      text(i + " %", margin - 5 + (translateX*-1), yPos + 4);
+      line(margin, yPos, (width - margin) + (translateX*-1), yPos);
     }
   }
   // REFERENCE LINES GDP
@@ -81,11 +84,11 @@ void drawGUI() {
     if (i % reference == 0) {
       stroke(200, 60);
       float xPos = map(i, gdpMin, gdpMax, margin+10, (width - margin -10)*scaleFactor);
-      if (xPos <= width-margin) {
+      //if (xPos <= width-margin) {
         textAlign(LEFT);
         text(nfc(i), xPos - 25, height - margin + 20);
         line(xPos, margin, xPos, height - margin);
-      }
+      //}
     }
   }
 
@@ -117,7 +120,7 @@ void drawData() {
   for (int i = 0; i < educationValues.length; i++) {
     float xPos = map(gdpValues[i], gdpMin, gdpMax, margin+10, (width - margin -10)*scaleFactor);
     float yPos = map(educationValues[i], eduMin, eduMax, height - margin - 10, margin+10);
-    if (xPos <= width-margin) {
+    //if (xPos <= width-margin) {
       noStroke();
       switch(data.getString(i, 0)) {
       case "Africa":
@@ -141,7 +144,7 @@ void drawData() {
       if (showLabel) {
         text(data.getString(i, 2), xPos + 10, yPos + 3);
       }
-    }
+    //}
   }
 }
 
@@ -158,11 +161,12 @@ void keyPressed() {
 
 void mouseWheel(MouseEvent e) {
   scaleFactor += float(e.getCount())*0.1;
-  translateX = translateX - float(e.getCount())*mouseX*0.1;
-  translateY = translateY - float(e.getCount())*mouseY*0.1;
+ // translateX = translateX - float(e.getCount())*mouseX*0.1;
+  //translateY = translateY - float(e.getCount())*mouseY*0.1;
 }
 
 void mouseDragged(MouseEvent e) {
   translateX += mouseX - pmouseX;
-  translateY += mouseY - pmouseY;
+  println(translateX);
+ // translateY += mouseY - pmouseY;
 }
