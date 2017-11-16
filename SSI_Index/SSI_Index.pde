@@ -65,7 +65,7 @@ void drawGUI() {
 
   // X, Y AXIS
   line(margin, margin, margin, height-margin);
-  line(margin, height-margin, width-margin, height-margin);
+  line(margin, height-margin, width-margin + (translateX*-1), height-margin);
 
   // REFERENCE LINES EDUCATION
   for (int i = round(eduMin); i <= round(eduMax); i++) {
@@ -96,12 +96,12 @@ void drawGUI() {
   textAlign(CENTER, CENTER);
 
   pushMatrix();
-  translate(margin/3, margin);
+  translate(margin/3 + (translateX*-1), margin);
   rotate(-HALF_PI);
   text("Education Enrollment Rate", 0, 0);
   popMatrix();
 
-  text("GDP in $US", width-margin, height - margin + (margin/2));
+  text("GDP in $US", width-margin + (translateX*-1), height - margin + (margin/2));
 }
 
 void drawData() {
