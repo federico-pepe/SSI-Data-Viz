@@ -145,6 +145,11 @@ void drawData() {
         text(data.getString(i, 2), xPos + 10, yPos + 3);
       }
     //}
+    
+      // MousePos
+      if(dist(mouseX, mouseY, xPos, yPos) < 5) {
+        text(data.getString(i, 2), xPos + 10, yPos + 3);
+      }
   }
 }
 
